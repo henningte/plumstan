@@ -91,9 +91,6 @@ d_fit <-
 #> Chain 1: Rejecting initial value:
 #> Chain 1:   Log probability evaluates to log(0), i.e. negative infinity.
 #> Chain 1:   Stan can't start sampling from this initial value.
-#> Chain 1: Rejecting initial value:
-#> Chain 1:   Log probability evaluates to log(0), i.e. negative infinity.
-#> Chain 1:   Stan can't start sampling from this initial value.
 #> Chain 1: 
 #> Chain 1: Gradient evaluation took 0 seconds
 #> Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
@@ -113,9 +110,9 @@ d_fit <-
 #> Chain 1: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 #> Chain 1: Iteration: 1500 / 1500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 1.214 seconds (Warm-up)
-#> Chain 1:                1.055 seconds (Sampling)
-#> Chain 1:                2.269 seconds (Total)
+#> Chain 1:  Elapsed Time: 1.164 seconds (Warm-up)
+#> Chain 1:                1.163 seconds (Sampling)
+#> Chain 1:                2.327 seconds (Total)
 #> Chain 1:
 ```
 
@@ -135,26 +132,26 @@ d_extracted_fit <-
 ``` r
 head(d_extracted_fit)
 #>   iter data_type depth_profile depth_lower depth_upper      age
-#> 1    1     pb210      measured          29          28 257.6799
-#> 2    2     pb210      measured          29          28 237.0759
-#> 3    3     pb210      measured          29          28 211.6760
-#> 4    4     pb210      measured          29          28 185.5474
-#> 5    5     pb210      measured          29          28 284.8788
-#> 6    6     pb210      measured          29          28 210.9863
+#> 1    1     pb210      measured          29          28 246.9491
+#> 2    2     pb210      measured          29          28 191.9310
+#> 3    3     pb210      measured          29          28 268.8333
+#> 4    4     pb210      measured          29          28 236.5926
+#> 5    5     pb210      measured          29          28 268.5229
+#> 6    6     pb210      measured          29          28 265.2187
 #>   depth_accumulation_rate depth_accumulation_rate_alpha pb210_tot
-#> 1                      NA                            NA  18.32185
-#> 2                      NA                            NA  16.06610
-#> 3                      NA                            NA  15.66435
-#> 4                      NA                            NA  17.53089
-#> 5                      NA                            NA  17.08202
-#> 6                      NA                            NA  18.21800
+#> 1                      NA                            NA  18.77495
+#> 2                      NA                            NA  13.24881
+#> 3                      NA                            NA  18.72880
+#> 4                      NA                            NA  16.35735
+#> 5                      NA                            NA  20.69651
+#> 6                      NA                            NA  17.87121
 #>   pb210_supported     omega
-#> 1        4.437940 0.3163965
-#> 2        4.413944 0.2977588
-#> 3        4.444461 0.2863706
-#> 4        4.425640 0.3022443
-#> 5        4.236175 0.2565575
-#> 6        4.512631 0.3283439
+#> 1        5.072997 0.3675504
+#> 2        3.953496 0.2766916
+#> 3        4.795134 0.3074613
+#> 4        4.017197 0.3098338
+#> 5        4.975957 0.3311262
+#> 6        4.797021 0.2965814
 ```
 
 With `d_extracted_fit`, it is easy to plot the modeled age-depth profile, e.g. using functions of `ggplot2`: Here, I plotted the estimated sediment ages versus lower section depths according to the first 500 draws of the MCMC algorithm.

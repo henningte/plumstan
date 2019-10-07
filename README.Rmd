@@ -180,7 +180,7 @@ Key features of the sediment accumulation model are that (1) sediment accumulati
 
 Please cite this software package as:
 
-> Authors, (`r format(Sys.Date(), "%Y")`). _Compendium of R code and data for 'Title of paper'_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://doi.org/xxx/xxx>
+> Henning Teickner, (`r format(Sys.Date(), "%Y")`). _plumstan: Bayesian <sup>210</sup>Pb  dating with Stan_. Accessed `r format(Sys.Date(), "%d %b %Y")`. Online at <https://github.com/henningte/plumstan>.
 
 
 ### Licenses
@@ -189,7 +189,7 @@ Please cite this software package as:
 
 **Code :** See the [DESCRIPTION](DESCRIPTION) file
 
-**Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse
+**Data :** [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/) (see sources section for data sources and how to give credit to the original author(s) and the source) 
 
 ### Contributions
 

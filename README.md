@@ -110,10 +110,13 @@ d_fit <-
 #> Chain 1: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 #> Chain 1: Iteration: 1500 / 1500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 1.164 seconds (Warm-up)
-#> Chain 1:                1.163 seconds (Sampling)
-#> Chain 1:                2.327 seconds (Total)
+#> Chain 1:  Elapsed Time: 1.249 seconds (Warm-up)
+#> Chain 1:                1.204 seconds (Sampling)
+#> Chain 1:                2.453 seconds (Total)
 #> Chain 1:
+#> Warning: There were 1 divergent transitions after warmup. Increasing adapt_delta above 0.8 may help. See
+#> http://mc-stan.org/misc/warnings.html#divergent-transitions-after-warmup
+#> Warning: Examine the pairs() plot to diagnose sampling problems
 ```
 
 `d_fit` is an object of class `plumstan_fit` that is an object of class `stanfit`. Thus, all functions of the R packages `rstan` and `bayesplot` may be used in order to investigate and validate the fitted model.
@@ -132,26 +135,26 @@ d_extracted_fit <-
 ``` r
 head(d_extracted_fit)
 #>   iter data_type depth_profile depth_lower depth_upper      age
-#> 1    1     pb210      measured          29          28 246.9491
-#> 2    2     pb210      measured          29          28 191.9310
-#> 3    3     pb210      measured          29          28 268.8333
-#> 4    4     pb210      measured          29          28 236.5926
-#> 5    5     pb210      measured          29          28 268.5229
-#> 6    6     pb210      measured          29          28 265.2187
+#> 1    1     pb210      measured          29          28 286.1103
+#> 2    2     pb210      measured          29          28 255.1541
+#> 3    3     pb210      measured          29          28 206.9914
+#> 4    4     pb210      measured          29          28 234.0364
+#> 5    5     pb210      measured          29          28 261.5354
+#> 6    6     pb210      measured          29          28 207.1425
 #>   depth_accumulation_rate depth_accumulation_rate_alpha pb210_tot
-#> 1                      NA                            NA  18.77495
-#> 2                      NA                            NA  13.24881
-#> 3                      NA                            NA  18.72880
-#> 4                      NA                            NA  16.35735
-#> 5                      NA                            NA  20.69651
-#> 6                      NA                            NA  17.87121
+#> 1                      NA                            NA  15.25950
+#> 2                      NA                            NA  18.16561
+#> 3                      NA                            NA  17.48225
+#> 4                      NA                            NA  18.76848
+#> 5                      NA                            NA  15.99730
+#> 6                      NA                            NA  15.30078
 #>   pb210_supported     omega
-#> 1        5.072997 0.3675504
-#> 2        3.953496 0.2766916
-#> 3        4.795134 0.3074613
-#> 4        4.017197 0.3098338
-#> 5        4.975957 0.3311262
-#> 6        4.797021 0.2965814
+#> 1        4.559376 0.2716322
+#> 2        4.806893 0.2765001
+#> 3        4.479510 0.3350715
+#> 4        4.751313 0.3170354
+#> 5        4.628442 0.3118351
+#> 6        4.359829 0.3030630
 ```
 
 With `d_extracted_fit`, it is easy to plot the modeled age-depth profile, e.g. using functions of `ggplot2`: Here, I plotted the estimated sediment ages versus lower section depths according to the first 500 draws of the MCMC algorithm.
@@ -258,7 +261,7 @@ Key features of the sediment accumulation model are that (1) sediment accumulati
 
 Please cite this software package as:
 
-> Authors, (2019). *Compendium of R code and data for 'Title of paper'*. Accessed 07 Okt 2019. Online at <https://doi.org/xxx/xxx>
+> Henning Teickner, (2019). *plumstan: Bayesian <sup>210</sup>Pb dating with Stan*. Accessed 07 Okt 2019. Online at <https://github.com/henningte/plumstan>.
 
 ### Licenses
 
@@ -266,7 +269,7 @@ Please cite this software package as:
 
 **Code :** See the [DESCRIPTION](DESCRIPTION) file
 
-**Data :** [CC-0](http://creativecommons.org/publicdomain/zero/1.0/) attribution requested in reuse
+**Data :** [CC-BY-4.0](http://creativecommons.org/licenses/by/4.0/) (see sources section for data sources and how to give credit to the original author(s) and the source)
 
 ### Contributions
 

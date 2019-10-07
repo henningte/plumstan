@@ -45,7 +45,7 @@ d <- plumstan::plumstan_data_input(plumstan_sample_data)
 
 
 Inspect the <sup>210</sup>Pb activity profile in order to identify layers that can be used in order to estimate the supported <sup>210</sup>Pb activity. 
-```{r, eval = TRUE}
+```{r, eval = TRUE, fig.path="man/figures/readme-"}
 plumstan:::plot.plumstan_data_input(d)
 ```
 
@@ -92,7 +92,7 @@ head(d_extracted_fit)
 ```
 
 With `d_extracted_fit`, it is easy to plot the modeled age-depth profile, e.g. using functions of `ggplot2`: Here, I plotted the estimated sediment ages versus lower section depths according to the first 500 draws of the MCMC algorithm.
-```{r, eval = TRUE}
+```{r, eval = TRUE, fig.path="man/figures/readme-"}
 # load ggplot2
 library(ggplot2)
 
@@ -107,7 +107,7 @@ ggplot(data = d_extracted_fit[d_extracted_fit$iter <= 500 & d_extracted_fit$dept
 ```
 
 Similarly, the fitted total <sup>210</sup>Pb activities can be visualised (red dots represent the measured <sup>210</sup>Pb activities):
-```{r, eval = TRUE}
+```{r, eval = TRUE, fig.path="man/figures/readme-"}
 # plot
 ggplot() +
   geom_path(data = d_extracted_fit[d_extracted_fit$iter <= 500 & d_extracted_fit$depth_profile == "measured",],
@@ -126,7 +126,7 @@ ggplot() +
 ```
 
 Packages such as [`bayesplot`](https://github.com/stan-dev/bayesplot) can be used to validate the model since it is built using `rstan`. For example, one may plot the marginal posterior distributions of the supported <sup>210</sup>Pb activity and the memory parameter \omega;:
-```{r, message = FALSE}
+```{r, message = FALSE, fig.path="man/figures/readme-"}
 # load the bayesplot package
 library("bayesplot")
 
@@ -140,13 +140,13 @@ bayesplot::mcmc_areas(d_parameters,
 ```
 
 ... or a trace plot of these parameters:
-```{r, message = FALSE}
+```{r, message = FALSE, fig.path="man/figures/readme-"}
 bayesplot::mcmc_trace(d_parameters,
                       pars = c("data_supported_alpha", "omega"))
 ```
 
 ... or make a posterior predictive check for the model:
-```{r, message = FALSE}
+```{r, message = FALSE, fig.path="man/figures/readme-"}
 # load package stringr (just to construct an index for the predicted values in d_parameters)
 library(stringr)
 

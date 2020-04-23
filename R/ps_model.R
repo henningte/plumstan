@@ -1,10 +1,7 @@
-#'@importFrom Rdpack reprompt
-NULL
-
-#' Creates an object of class \code{plumstan_model}
+#' Creates an object of class \code{ps_model}
 #'
-#' \code{plumstan_model} is the constructor functions for objects of class
-#' \code{plumstan_model}. It is designed predominantly for internal use in
+#' \code{ps_model} is the constructor functions for objects of class
+#' \code{ps_model}. It is designed predominantly for internal use in
 #' \code{\link{plumstan_get_model}} and contains all data needed to fit a
 #' Bayesian age-depth model with \code{Stan}.
 #'
@@ -24,7 +21,7 @@ NULL
 #' @param stan_model A compiled \code{Stan} model (\code{\link[rstan]{stanfit-class}})
 #' in order to construct the age-depth model based on the data in
 #' \code{stan_data}.
-#' @return An object of class \code{plumstan_model}, that is a list with the
+#' @return An object of class \code{ps_model}, that is a list with the
 #' following elements:
 #' \describe{
 #'   \item{data_input}{an object of class \code{\link{plumstan_data_input}}.}
@@ -52,7 +49,7 @@ NULL
 #' @examples #
 #'
 #' @export
-plumstan_model <- function(
+ps_model <- function(
   data_input,
   data_input_index,
   sections,
@@ -60,18 +57,18 @@ plumstan_model <- function(
   stan_model
 ){
 
-  # construct the plumstan_model object
+  # construct the ps_model object
   structure(list(
     data_input = data_input,
     data_input_index = data_input_index,
     sections = sections,
     stan_data = stan_data,
     stan_model = if(any(data_input_index == "data_chronology_cs137")) {
-      stanmodels$plumstan_model
+      stanmodels$ps_model
     } else {
-      stanmodels$plumstan_model_cs
+      stanmodels$ps_model_cs
     }
     ),
-    class = c("plumstan_model", "list"))
+    class = c("ps_model", "list"))
 
 }

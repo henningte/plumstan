@@ -1,15 +1,12 @@
-#'@importFrom Rdpack reprompt
-NULL
-
-#' Creates an object of class \code{plumstan_input_data}
+#' Creates an object of class \code{ps_input_data}
 #'
-#' \code{plumstan_extract_samples} extracts samples from a fitted
+#' \code{ps_extract_samples} extracts samples from a fitted
 #' \code{\link[rstan]{stanfit}} object and stored them in a
 #' \code{data.frame}
 #'
 #' @param x An object of class \code{\link[rstan]{stanfit}} fitted with
-#' \code{\link{plumstan_fit_model}}.
-#' @param plumstan_model The corresponding \code{\link{plumstan_model}}
+#' \code{\link{ps_fit_model}}.
+#' @param ps_model The corresponding \code{\link{ps_model}}
 #' object.
 #' @return A \code{data.frame} object with a row for each combination
 #' of an iter of the MCMC sampling AND each depth section (measured or
@@ -51,9 +48,9 @@ NULL
 #' @examples #
 #'
 #' @export
-plumstan_extract_samples <- function(
+ps_extract_samples <- function(
   x,
-  plumstan_model
+  ps_model
 ){
 
   # checks
@@ -95,7 +92,7 @@ plumstan_extract_samples <- function(
   n_sections_artificial <- ncol(age_artificial)
 
   # define the data type
-  data_type <- as.character(plumstan_model$data_input_index[plumstan_model$data_input_index %in% c("data_chronology_pb210", "data_chronology_cs137")])
+  data_type <- as.character(ps_model$data_input_index[ps_model$data_input_index %in% c("data_chronology_pb210", "data_chronology_cs137")])
   data_type[data_type == "data_chronology_pb210"] <- "pb210"
   data_type[data_type == "data_chronology_cs137"] <- "cs137_age"
 
@@ -111,12 +108,12 @@ plumstan_extract_samples <- function(
         rep("artificial",
             n_sections_artificial * n_iter))),
     depth_lower = c(
-      rep(plumstan_model$data_input$depth_lower[plumstan_model$data_input_index %in% c("data_chronology_pb210", "data_chronology_cs137")], each = n_iter),
-      rep(plumstan_model$sections$depth_lower, each = n_iter)
+      rep(ps_model$data_input$depth_lower[ps_model$data_input_index %in% c("data_chronology_pb210", "data_chronology_cs137")], each = n_iter),
+      rep(ps_model$sections$depth_lower, each = n_iter)
     ),
     depth_upper = c(
-      rep(plumstan_model$data_input$depth_upper[plumstan_model$data_input_index %in% c("data_chronology_pb210", "data_chronology_cs137")], each = n_iter),
-      rep(plumstan_model$sections$depth_upper, each = n_iter)
+      rep(ps_model$data_input$depth_upper[ps_model$data_input_index %in% c("data_chronology_pb210", "data_chronology_cs137")], each = n_iter),
+      rep(ps_model$sections$depth_upper, each = n_iter)
     ),
     age = c(unlist(age_measured[,-1]),
             unlist(age_artificial)),

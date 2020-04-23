@@ -48,29 +48,17 @@ data{
 }
 parameters{
 
-  // a real value representing the modeled atmospheric 210Pb supply rate
-  real<lower = 0> phi;
-
-  // a real value representing the modeled memory value of the autoregressive process
-  real<lower = 0, upper = 1> omega;
-
-  // a real value representing the modeled supported 210Pb activity
-  real data_supported_alpha;
-
-  // a vector with the depth accumulation rate solely from the current linear increment
-  real<lower = 0> alpha[increments_n];
+  real<lower = 0> phi; // atmospheric 210Pb supply rate
+  real<lower = 0, upper = 1> omega; // memory value of the autoregressive process
+  real data_supported_alpha; // supported 210Pb activity
+  real<lower = 0> alpha[increments_n]; // the depth accumulation rate solely from the current linear increment
 
   }
 transformed parameters {
 
-  // a vector with the depth accumulation rates to model for each linear increment
-  real<lower = 0> m[increments_n];
-
-  // a vector storing the total 210Pb activity
-  real p_tot[data_chronology_n];
-
-  // peat ages the model should compute
-  vector[data_chronology_n + 1] t;
+  real<lower = 0> m[increments_n]; // the depth accumulation rates to model for each linear increment
+  real p_tot[data_chronology_n]; // the total 210Pb activity
+  vector[data_chronology_n + 1] t; // peat ages the model should compute
 
   // compute the depth accumulation rates [yr/cm]
   m[1] = alpha[1];
@@ -151,12 +139,12 @@ generated quantities{
 
   // compute predicted values for linear increments
   for(n in 1:increments_n){
-  	p_tot_artificial[n] = dot_product(m[1:n], increments_thickness[1:n]);
+  	p_tot_artificial[n] = dot_product(m[n:increments_n], increments_thickness[n:increments_n]);
   }
 
   // compute ages for each artificial section
   for(n in 1:increments_n){
-    t_artificial[n] = dot_product(m[1:n], increments_thickness[1:n]);
+    t_artificial[n] = dot_product(m[n:increments_n], increments_thickness[n:increments_n]);
   }
 
   // compute the deviance

@@ -88,7 +88,8 @@ d_fit <-
     d_model, 
     chains = 1,
     iter = 1500,
-    warmup = 500)
+    warmup = 500,
+    seed = 123)
 #> 
 #> SAMPLING FOR MODEL 'plumstan_model' NOW (CHAIN 1).
 #> Chain 1: Rejecting initial value:
@@ -113,9 +114,9 @@ d_fit <-
 #> Chain 1: Iteration: 1400 / 1500 [ 93%]  (Sampling)
 #> Chain 1: Iteration: 1500 / 1500 [100%]  (Sampling)
 #> Chain 1: 
-#> Chain 1:  Elapsed Time: 2.087 seconds (Warm-up)
-#> Chain 1:                1.296 seconds (Sampling)
-#> Chain 1:                3.383 seconds (Total)
+#> Chain 1:  Elapsed Time: 2.518 seconds (Warm-up)
+#> Chain 1:                1.388 seconds (Sampling)
+#> Chain 1:                3.906 seconds (Total)
 #> Chain 1:
 ```
 
@@ -135,26 +136,26 @@ d_extracted_fit <-
 ``` r
 head(d_extracted_fit)
 #>   iter data_type depth_profile depth_lower depth_upper      age
-#> 1    1     pb210      measured          29          28 252.6681
-#> 2    2     pb210      measured          29          28 180.4133
-#> 3    3     pb210      measured          29          28 221.9439
-#> 4    4     pb210      measured          29          28 211.1097
-#> 5    5     pb210      measured          29          28 247.1448
-#> 6    6     pb210      measured          29          28 191.5128
+#> 1    1     pb210      measured          29          28 195.2209
+#> 2    2     pb210      measured          29          28 204.5243
+#> 3    3     pb210      measured          29          28 225.0797
+#> 4    4     pb210      measured          29          28 194.0709
+#> 5    5     pb210      measured          29          28 203.0467
+#> 6    6     pb210      measured          29          28 191.2571
 #>   depth_accumulation_rate depth_accumulation_rate_alpha pb210_tot
-#> 1                      NA                            NA  13.10463
-#> 2                      NA                            NA  14.75933
-#> 3                      NA                            NA  12.50621
-#> 4                      NA                            NA  14.22184
-#> 5                      NA                            NA  15.28399
-#> 6                      NA                            NA  15.32130
+#> 1                      NA                            NA  14.20569
+#> 2                      NA                            NA  13.25301
+#> 3                      NA                            NA  13.91363
+#> 4                      NA                            NA  15.45908
+#> 5                      NA                            NA  16.10459
+#> 6                      NA                            NA  14.54460
 #>   pb210_supported     omega
-#> 1      0.04174404 0.2933825
-#> 2      0.03609904 0.4016763
-#> 3      0.02699996 0.3228094
-#> 4      0.03502281 0.3250323
-#> 5      0.04125792 0.3219240
-#> 6      0.03867965 0.3418247
+#> 1      0.03834938 0.3076514
+#> 2      0.03495767 0.3321187
+#> 3      0.03514617 0.3319858
+#> 4      0.03960609 0.3177757
+#> 5      0.03571352 0.3012072
+#> 6      0.03428386 0.3115710
 ```
 
 With `d_extracted_fit`, it is easy to plot the modeled age-depth profile, e.g. using functions of `ggplot2`: Here, I plotted the estimated sediment ages versus lower section depths according to the first 500 draws of the MCMC algorithm.

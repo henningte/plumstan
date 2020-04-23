@@ -73,7 +73,8 @@ d_fit <-
     d_model, 
     chains = 1,
     iter = 1500,
-    warmup = 500)
+    warmup = 500,
+    seed = 123)
 ```
 
 `d_fit` is an object of class `stanfit`. Thus, all functions of the R packages `rstan` and `bayesplot` may be used in order to investigate and validate the fitted model.

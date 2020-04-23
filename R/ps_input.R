@@ -71,12 +71,12 @@ ps_input <- function(x) {
     rlang::abort(paste0("`x` must contain the following columns: ", colnames_expected, ". `x` does not contain column(s) ", colnames_expected[cond], "."))
   }
   numeric_expected_vars <- colnames_expected[-c(1, 2)]
-  numeric_expected <- !purrr::map_lgl(x[, numeric_vars], function(x) is.numeric(x) || is.integer(x))
+  numeric_expected <- !purrr::map_lgl(x[, numeric_expected_vars], function(x) is.numeric(x) || is.integer(x))
   if(any(numeric_expected)) {
     message <-
       tibble::tibble(
         var = numeric_expected_vars,
-        cond = purrr::map(x[, numeric_vars], function(x) class(x)[[1]]),
+        cond = purrr::map(x[, numeric_expected_vars], function(x) class(x)[[1]]),
         message = paste0("`", numeric_expected_vars, "` must be numeric, not ", cond, ".\n")
       )
     rlang::abort(message$message[numeric_expected])

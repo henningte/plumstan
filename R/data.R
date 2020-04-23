@@ -16,29 +16,8 @@
 #' @references
 #' \insertAllCited{}
 #'
-#' @format A \code{data.frame} with 33 rows and 8 variables. Each row contains
-#' information on one measurement for one depth section of the depth profile.
-#' The column variables are:
-#' \describe{
-#'   \item{data_type}{The data type of the measurement for the current
-#'     section. One of \code{c("pb210", "ra226" or "cs137_age")}. In this
-#'     case, only \eqn{^{210}}Pb activities were measured and therefore this
-#'     column contains only \code{"pb210"}.}
-#'   \item{depth_lower}{The lower depth of the current section [cm].}
-#'   \item{depth_upper}{The upper depth of the current section [cm].}
-#'   \item{mass_density}{The mass density of the current section [g
-#'     cm\eqn{^{-3}}].}
-#'   \item{activity}{The measured activity of \eqn{^{210}}Pb for the
-#'   current section.}
-#'   \item{activity_sd}{The measurement error of the measured activity
-#'     of \eqn{^{210}}Pb for the current section.}
-#'   \item{cs137_age}{The age of a section as inferred from a
-#'    \eqn{^{137}}Cs analysis. Since such data is not available and all
-#'    rows correspond to \eqn{^{210}}Pb activity measurements, this is
-#'    \code{NA}.}
-#'   \item{cs137_age_sd}{The measurement error in the age estimate
-#'     as inferred from a \eqn{^{137}}Cs analysis. Since such data is not
-#'     available and all rows correspond to \eqn{^{210}}Pb activity
-#'     measurements, this is \code{NA}.}
-#' }
-"plumstan_sample_data"
+#' @format A \code{\link{ps_input}} object (\code{data.frame}) with 33 rows
+#' and 8 variables. Each row contains information on one measurement for one
+#' depth section of the depth profile. See \code{\link{ps_input}} for information
+#' on the variables.
+"ps_sample_data"

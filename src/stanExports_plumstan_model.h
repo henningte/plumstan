@@ -46,7 +46,7 @@ private:
         std::vector<double> data_chronology_y_sd;
         std::vector<double> data_supported_y;
         std::vector<double> data_supported_y_sd;
-        std::vector<double> data_chronology_depth;
+        std::vector<double> data_chronology_depth_lower;
         std::vector<double> data_chronology_density;
         vector_d data_supported_density;
         std::vector<double> increments_thickness;
@@ -162,18 +162,18 @@ public:
                 check_greater_or_equal(function__, "data_supported_y_sd[i_0__]", data_supported_y_sd[i_0__], 0);
             }
             current_statement_begin__ = 19;
-            validate_non_negative_index("data_chronology_depth", "data_chronology_n", data_chronology_n);
-            context__.validate_dims("data initialization", "data_chronology_depth", "double", context__.to_vec(data_chronology_n));
-            data_chronology_depth = std::vector<double>(data_chronology_n, double(0));
-            vals_r__ = context__.vals_r("data_chronology_depth");
+            validate_non_negative_index("data_chronology_depth_lower", "data_chronology_n", data_chronology_n);
+            context__.validate_dims("data initialization", "data_chronology_depth_lower", "double", context__.to_vec(data_chronology_n));
+            data_chronology_depth_lower = std::vector<double>(data_chronology_n, double(0));
+            vals_r__ = context__.vals_r("data_chronology_depth_lower");
             pos__ = 0;
-            size_t data_chronology_depth_k_0_max__ = data_chronology_n;
-            for (size_t k_0__ = 0; k_0__ < data_chronology_depth_k_0_max__; ++k_0__) {
-                data_chronology_depth[k_0__] = vals_r__[pos__++];
+            size_t data_chronology_depth_lower_k_0_max__ = data_chronology_n;
+            for (size_t k_0__ = 0; k_0__ < data_chronology_depth_lower_k_0_max__; ++k_0__) {
+                data_chronology_depth_lower[k_0__] = vals_r__[pos__++];
             }
-            size_t data_chronology_depth_i_0_max__ = data_chronology_n;
-            for (size_t i_0__ = 0; i_0__ < data_chronology_depth_i_0_max__; ++i_0__) {
-                check_greater_or_equal(function__, "data_chronology_depth[i_0__]", data_chronology_depth[i_0__], 0);
+            size_t data_chronology_depth_lower_i_0_max__ = data_chronology_n;
+            for (size_t i_0__ = 0; i_0__ < data_chronology_depth_lower_i_0_max__; ++i_0__) {
+                check_greater_or_equal(function__, "data_chronology_depth_lower[i_0__]", data_chronology_depth_lower[i_0__], 0);
             }
             current_statement_begin__ = 22;
             validate_non_negative_index("data_chronology_density", "data_chronology_n", data_chronology_n);
@@ -498,13 +498,13 @@ public:
                     current_statement_begin__ = 78;
                     stan::model::assign(t, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
-                                ((get_base1(data_chronology_depth, i, "data_chronology_depth", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1)), 
+                                ((get_base1(data_chronology_depth_lower, i, "data_chronology_depth_lower", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1)), 
                                 "assigning variable t");
                 } else {
                     current_statement_begin__ = 82;
                     stan::model::assign(t, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
-                                (dot_product(stan::model::rvalue(m, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "m"), stan::model::rvalue(increments_thickness, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "increments_thickness")) + ((get_base1(data_chronology_depth, i, "data_chronology_depth", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1))), 
+                                (dot_product(stan::model::rvalue(m, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "m"), stan::model::rvalue(increments_thickness, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "increments_thickness")) + ((get_base1(data_chronology_depth_lower, i, "data_chronology_depth_lower", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1))), 
                                 "assigning variable t");
                 }
             }
@@ -711,13 +711,13 @@ public:
                     current_statement_begin__ = 78;
                     stan::model::assign(t, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
-                                ((get_base1(data_chronology_depth, i, "data_chronology_depth", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1)), 
+                                ((get_base1(data_chronology_depth_lower, i, "data_chronology_depth_lower", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1)), 
                                 "assigning variable t");
                 } else {
                     current_statement_begin__ = 82;
                     stan::model::assign(t, 
                                 stan::model::cons_list(stan::model::index_uni(i), stan::model::nil_index_list()), 
-                                (dot_product(stan::model::rvalue(m, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "m"), stan::model::rvalue(increments_thickness, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "increments_thickness")) + ((get_base1(data_chronology_depth, i, "data_chronology_depth", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1))), 
+                                (dot_product(stan::model::rvalue(m, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "m"), stan::model::rvalue(increments_thickness, stan::model::cons_list(stan::model::index_min_max((get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1) + 1), get_base1(index_depth_increments_upper, i, "index_depth_increments_upper", 1)), stan::model::nil_index_list()), "increments_thickness")) + ((get_base1(data_chronology_depth_lower, i, "data_chronology_depth_lower", 1) - get_base1(increments_depth_upper, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "increments_depth_upper", 1)) * get_base1(m, get_base1(index_depth_increments_lower, i, "index_depth_increments_lower", 1), "m", 1))), 
                                 "assigning variable t");
                 }
             }

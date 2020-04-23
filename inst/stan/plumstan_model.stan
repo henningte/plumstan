@@ -16,7 +16,7 @@ data{
   real<lower = 0> data_supported_y_sd[data_supported_n];
 
   // depth of the lower boundary of each sample
-  real<lower = 0> data_chronology_depth[data_chronology_n];
+  real<lower = 0> data_chronology_depth_lower[data_chronology_n];
 
   // mass densities of each sample [g/cm^3]
   real<lower = 0> data_chronology_density[data_chronology_n];
@@ -75,11 +75,11 @@ transformed parameters {
   	// compute the peat age for each target depth
   	if(index_depth_increments_lower[i] == increments_n){
 
-  		t[i] = (data_chronology_depth[i] - increments_depth_upper[index_depth_increments_lower[i]]) * m[index_depth_increments_lower[i]];
+  		t[i] = (data_chronology_depth_lower[i] - increments_depth_upper[index_depth_increments_lower[i]]) * m[index_depth_increments_lower[i]];
 
   	} else {
 
-  		t[i] = dot_product(m[(index_depth_increments_lower[i]+1):index_depth_increments_upper[i]], increments_thickness[(index_depth_increments_lower[i]+1):index_depth_increments_upper[i]]) + (data_chronology_depth[i] - increments_depth_upper[index_depth_increments_lower[i]]) * m[index_depth_increments_lower[i]];
+  		t[i] = dot_product(m[(index_depth_increments_lower[i]+1):index_depth_increments_upper[i]], increments_thickness[(index_depth_increments_lower[i]+1):index_depth_increments_upper[i]]) + (data_chronology_depth_lower[i] - increments_depth_upper[index_depth_increments_lower[i]]) * m[index_depth_increments_lower[i]];
 
   	}
 

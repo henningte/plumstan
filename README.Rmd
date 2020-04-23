@@ -16,77 +16,77 @@ knitr::opts_chunk$set(
 
 # plumstan
 
-`plumstan` is an R package providing functions in order to compute age-depth models for sediment cores based on measured  <sup>210</sup>Pb activities using a Bayesian statistical
-framework developed and implemented in the R package [`plum`](https://github.com/maquinolopez/Plum) by Aquino-López et al [-@AquinoLopez.2018]. In contrast to `plum`, `plumstan` relies on the programming language [`Stan`](https://github.com/stan-dev/stan) [@Carpenter.2017].
-in order to perform the Bayesian calculations. This has the  advantage that the Bayesian model can directly be integrated  into more complex models and modified and resulting models can be handled using the functions of the [`rstan`](https://github.com/stan-dev/rstan) package [@StanDevelopmentTeam.2019]. Moreover, MCMC sampling is efficient via `Stan`'s Hamiltonian Monte Carlo algorithm.
+plumstan is an R package that computes age-depth models for sediment cores based on measured  <sup>210</sup>Pb activities using a Bayesian statistical
+framework. 
+
+This framework is developed and implemented in the R package [plum](https://github.com/maquinolopez/Plum) by Aquino-López et al [-@AquinoLopez.2018]. In contrast to plum, plumstan relies on the programming language [Stan](https://github.com/stan-dev/stan) [@Carpenter.2017] in order to perform the Bayesian calculations. This has several  advantages:
+
+1. MCMC sampling is efficient via `Stan`'s Hamiltonian Monte Carlo algorithm [@StanDevelopmentTeam.2019].
+2. The model can be modified and integrated into complex models more easily.
+3. The fitted model can be handled using the functions of the [rstan](https://github.com/stan-dev/rstan) package [@StanDevelopmentTeam.2019]
 
 ### How to install
 
-Install `plumstan` with R:
+Install plumstan with R:
 ```{r installation, eval = FALSE}
-devtools::install_github("henningte/plumstan")
+remotes::install_github("henningte/plumstan")
 ```
 
 ### How to use
 
-Load `plumstan` in R:
+Load plumstan in R:
 ```{r load, eval = TRUE}
 library("plumstan")
 ```
 
 Load the sample data (derived from the publication of Aquino-López et al [-@AquinoLopez.2018]) and inspect the first rows.
 ```{r data_import, eval = TRUE}
-head(plumstan::plumstan_sample_data)
+head(plumstan::ps_sample_data)
 ```
-For `plumstan` to use the data, it needs to be converted to an object of class `plumstan_data_input`.
+For plumstan to use the data, it needs to be converted to an object of class `ps_input`.
 ```{r}
-d <- plumstan::plumstan_data_input(plumstan_sample_data)
+d <- plumstan::ps_input(ps_sample_data)
+class(d)
 ```
 
-
-Inspect the <sup>210</sup>Pb activity profile in order to identify layers that can be used in order to estimate the supported <sup>210</sup>Pb activity. 
+plumstan supports the visual identification of layers for which the background <sup>210</sup>Pb activity is reached: 
 ```{r, eval = TRUE, fig.path="man/figures/readme-"}
-plumstan:::plot.plumstan_data_input(d)
+plot(d)
 ```
 
-For the last 4 sections, the background <sup>210</sup>Pb activity level seems to be reached [@AquinoLopez.2018]. Therefore, the <sup>210</sup>Pb activities of the last 4 sections can be used to estimate the supported <sup>210</sup>Pb activity. The data are split accordingly into the part of the depth profile for which to estimate the age-depth relation (see below). For this, an index is constructed indicating which samples ar in which split:
+For the last 4 sections, the background <sup>210</sup>Pb activity level seems to be reached [@AquinoLopez.2018]. Therefore, the <sup>210</sup>Pb activities of the last 4 sections can be used to estimate the supported <sup>210</sup>Pb activity. Therefore, in `d`, column `d$supported` indicates that the deepest four layers should be used to estimate the supported <sup>210</sup>Pb activity:
 ```{r, eval = TRUE}
-# index to split the data
-index_supported <- plumstan::plumstan_select_pb210_supported(data_input = d, d = 30)
-index_supported
+d$supported
 ```
 
-These data can be fed into the `plumstan_model` function. The function constructs the artificial sections with fixed thickness for the age-depth model and a `Stan` model. A `thickness` of the artificial sections of 1 cm is chosen.
+These data can be fed into the `ps_get_model` function. The function constructs a set of "artificial" depth layers wih fixed depth increments for the age-depth model and a Stan model. A `thickness` of the artificial sections of 1 cm is chosen.
 ```{r, eval = TRUE}
-d_model <- 
-  plumstan::plumstan_get_model(data_input = d, 
-                               index_supported_pb210 = index_supported,
-                               thickness = 1)
+d_model <- plumstan::ps_get_model(data_input = d, thickness = 1)
 ```
 
-`plumstan_model` constructs a `plumstan_model` object that contains the data and the compiled `Stan` model from which `rstan`'s MCMC algorithm can sample.
+`ps_get_model` constructs a `ps_model` object that contains the data and the compiled Stan model from which rstan's MCMC algorithm can sample.
 
-`plumstan_fit` passes the data to `rstan::stan` in order to fit the `Stan` model contained in `d_model`. Thus, all options available for `rstan::stan` are also available for `plumstan_fit`.
+`plumstan_fit` passes the data to `rstan::stan` in order to fit the Stan model contained in `d_model`. Thus, all options available for `rstan::stan` are also available for `plumstan_fit`.
 ```{r, eval = TRUE}
 d_fit <- 
-  plumstan::plumstan_fit_model(
+  plumstan::ps_fit_model(
     d_model, 
     chains = 1,
     iter = 1500,
     warmup = 500)
 ```
 
-`d_fit` is an object of class `plumstan_fit` that is an object of class `stanfit`. Thus, all functions of the R packages `rstan` and `bayesplot` may be used in order to investigate and validate the fitted model.
+`d_fit` is an object of class `stanfit`. Thus, all functions of the R packages `rstan` and `bayesplot` may be used in order to investigate and validate the fitted model.
 
-The sediment age posterior predictive distributions (i.e. the MCMC samples after warmup) for each depth of the input sediment profile can be extracted as `data.frame` by passing `d_model` and `d_fit` to the function `plumstan::plumstan_extract`.
+The sediment age posterior predictive distributions (i.e. the MCMC samples after warmup) for each depth of the input sediment profile can be extracted as `data.frame` by passing `d_model` and `d_fit` to the function `ps_extract_samples`.
 ```{r, eval = TRUE}
 d_extracted_fit <- 
-  plumstan::plumstan_extract_samples(
+  plumstan::ps_extract_samples(
     x = d_fit, 
-    plumstan_model = d_model)
+    ps_model = d_model)
 ```
 
-`d_extracted_fit` is a `data.frame` with three columns: (1) The depth of `d_chronology` the row corresponds to (`depth_lower`), (2) the iter of the MCMC (`iter`), (3) the sampled sediment age (`age`), (4) the sampled nusupported <sup>210</sup>Pb activity (`p_unsupported`), (5) the sampled depth accumulation rate until this depth (`m`), (6) the sampled memory parameter &omega; (`omega`), (7) the sampled supported <sup>210</sup>Pb activity (`p_supported`). 
+`d_extracted_fit` is a `data.frame` containing the sampled parameter values (e.g. the estimated age values and Pb<sup>210</sup> activites) for both the measured depth layers (`d_extracted_fit$depth_profile == "measured"`) and the "artificial" depth profile (`d_extracted_fit$depth_profile == "artificial"`): 
 ```{r, eval = TRUE}
 head(d_extracted_fit)
 ```
@@ -115,7 +115,7 @@ ggplot() +
                      y = pb210_tot, 
                      group = iter),
        alpha = 0.04) +
-  geom_point(data = d[!index_supported,], 
+  geom_point(data = d[!d$supported,], 
              mapping = aes(x = depth_lower, 
                            y = activity * 10 * mass_density),
              shape = 21,
@@ -125,7 +125,7 @@ ggplot() +
        y = expression(""^{210}*Pb~activity~"["*Bq~m^{-2}*"]"))
 ```
 
-Packages such as [`bayesplot`](https://github.com/stan-dev/bayesplot) can be used to validate the model since it is built using `rstan`. For example, one may plot the marginal posterior distributions of the supported <sup>210</sup>Pb activity and the memory parameter \omega;:
+Packages such as [bayesplot](https://github.com/stan-dev/bayesplot) can be used to validate the model since it is built using `rstan`. For example, one may plot the marginal posterior distributions of the supported <sup>210</sup>Pb activity and the memory parameter \omega;:
 ```{r, message = FALSE, fig.path="man/figures/readme-"}
 # load the bayesplot package
 library("bayesplot")
@@ -159,14 +159,14 @@ bayesplot::ppc_dens_overlay(y = d_model$stan_data$data_chronology_y,
   theme(legend.position = "bottom")
 ```
 
-The manual and vignette contain more information on the functions and important things to consider during Bayesian analysis, such as the choice of prior parameters.
+The manual contains more information on the functions and important things to consider during Bayesian analysis, such as the choice of prior parameters.
 
 
 ### How it works
 
-`plumstan` estimates the age of sediment layers (age-depth model) based on measured depth profiles of <sup>210</sup>Pb activities, needing measured <sup>210</sup>Pb activities and the corresponding measurement errors as input and yielding a posterior probability distribution (PPD) of the age of each depth section.
+plumstan estimates the age of sediment layers (age-depth model) based on measured depth profiles of <sup>210</sup>Pb activities, needing measured <sup>210</sup>Pb activities and the corresponding measurement errors as input and yielding a posterior probability distribution (PPD) of the age of each depth section.
 
-`plumstan` uses for this the statistical framework developed by Aquino-López et al [-@AquinoLopez.2018] that is inspired by the statistical framework of the popular software package for <sup>14</sup>C dating, [`Bacon`](https://github.com/cran/rbacon) [@Blaauw.2011].
+plumstan uses for this the statistical framework developed by Aquino-López et al [-@AquinoLopez.2018] that is inspired by the statistical framework of the popular software package for <sup>14</sup>C dating, [Bacon](https://github.com/cran/rbacon) [@Blaauw.2011].
 
 The age-depth profile is modeled conditional on (1) the decay of <sup>210</sup>Pb in the sediment leading to the measured <sup>210</sup>Pb activity profile and (2) a sediment accumulation model.
 
@@ -174,7 +174,7 @@ The sediment accumulation model models the sediment accumulation [yr cm<sup>-1</
 
 The thickness can be specified manually. Increasing the thickness results in fewer sections and thus a less smooth representation of the age depth profile.
 
-Key features of the sediment accumulation model are that (1) sediment accumulation rate is &ge; 0 and (2) the sediment accumulation rate of a constructed section depends on the sediment accumulation of the next deeper section. The strength of this dependency is estimated by the model, ranging from 0 (the sediment accumulation rates of subsequent sections are independent) to 1 (the sediment accumulation rates of subsequent sections are identical). These features lead to realistic constraints for estimated sediment accumulation rates [@AquinoLopez.2018, @Blaauw.2011].
+Key features of the sediment accumulation model are that sediment accumulation rate is &ge; 0, and the sediment accumulation rate of a constructed section depends on the sediment accumulation of the next deeper section. The strength of this dependency is estimated by the model, ranging from 0 (the sediment accumulation rates of subsequent sections are independent) to 1 (the sediment accumulation rates of subsequent sections are identical). These features lead to realistic constraints for estimated sediment accumulation rates [@AquinoLopez.2018, @Blaauw.2011].
 
 ### How to cite
 
@@ -198,7 +198,7 @@ We welcome contributions from everyone. Before you get started, please see our [
 ### Sources 
 
 The complete data is derived from Aquino-López et al [-@AquinoLopez.2018]
-and was restructured to match the requirements of `plumstan`. The original
+and was restructured to match the requirements of plumstan. The original
 article containing the data can be downloaded from
 https://link.springer.com/article/10.1007%2Fs13253-018-0328-7 and is
 distributed under the Creative Commons Attribution 4.0 International
